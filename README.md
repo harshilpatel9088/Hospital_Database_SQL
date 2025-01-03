@@ -87,20 +87,20 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
 
    **Stored Procedure**:
    A stored procedure has been created for booking appointments, which generates an AppointmentID automatically.
-![Image 12](path/to/image12.png) 
+![Image 12](Image12.png) 
    **Test Case**:
-![Image 13](path/to/image13.png) 
+![Image 13](Image13.png) 
    Availability ID 6324 is not available. Attempting to book an appointment for this ID throws an error.
 
-![Image 14](path/to/image14.png)
-![Image 15](path/to/image15.png)
+![Image 14](Image14.png)
+![Image 15](Image15.png)
    Availability ID 6325 is available. Booking this slot for Patient ID P5 is successful, and the IsAvailable column is updated to "Not Available." The stored procedure generates a unique Appointment ID APNT4727, and a billing record is added.
-![Image 16](path/to/image16.png)
+![Image 16](Image16.png)
    **Appointment Cancellation**:
-  ![Image 17](path/to/image17.png)  
+  ![Image 17](Image17.png)  
    If the appointment is canceled, AvailabilityID 6325 is updated back to "Available," allowing future bookings. The billing record is deleted, ensuring data consistency and no redundant data.
-   ![Image 18](path/to/image18.png)
-   ![Image 19](path/to/image19.png)
+   ![Image 18](Image18.png)
+   ![Image 19](Image19.png)
 6. **Billing Table**: This table tracks the billing information for the appointments booked.
    
    
