@@ -2,7 +2,8 @@
 
 ## Overview
 
-This project aims to design and implement a comprehensive hospital database system to manage healthcare operations efficiently. The database comprises 12 interconnected tables to handle information on patients, doctors, appointments, billing, medical records, prescriptions, rooms, and staff. Advanced techniques, such as normalization (up to 3NF), constraints, triggers, and stored procedures, were used to ensure data integrity and efficiency. Analytical queries and reports provide insights into revenue, patient trends, staff workload, and room occupancy, supporting effective hospital management.
+This project aims to design and implement a comprehensive hospital database system to manage healthcare operations efficiently. The database comprises 12 interconnected tables to handle information on patients, doctors, appointments, billing, medical records, prescriptions, rooms, and staff. Advanced techniques, such as normalization (up to 3NF), constraints, triggers, and stored procedures, were used to ensure data integrity and efficiency. Analytical queries and reports provide insights into revenue, patient trends, staff workload, and room occupancy, supporting effective hospital management. The data for this project was created synthetically using SQL to simulate real-world scenarios and ensure comprehensive testing of the database system.
+
 
 ## Features
 
@@ -116,3 +117,85 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 17](path/to/image17.png)
    
    This approach for the Billing table helps maintain data integrity and reduces data redundancy.
+
+7. **Room Table**: This table contains information about room number, room type (General, ICU, Private), department ID to which the room belongs, and the availability status of the room.
+   ![Image 18](path/to/image18.png)
+   
+   Room number is used as the primary key for the table, assuming that the room number for each room in the hospital is unique.
+
+8. **RoomAssignment Table**: This table contains information about the room assignments for patients. AssignmentID is the primary key for the table.
+   ![Image 18](path/to/image18.png)
+   
+   Room number is the foreign key but is not tied with a unique constraint as there can be future room assignment possibilities handled with triggers in the database.
+
+   If it is decided during an appointment that the patient needs to be admitted, the RoomAssignment table needs to be used.
+
+   Before inserting or updating RoomAssignment, multiple checks are performed using triggers to maintain data integrity and consistency across related tables.
+
+   **Functionalities of the Trigger**:
+   - Triggered at the time of insert and/or update.
+   - Validates the department ID for the room and the doctor treating the patient (e.g., a doctor in Department 10 can only assign rooms belonging to Department 10).
+   - Validates if the selected room number is available to be assigned.
+   - Ensures the discharge date for the admission is greater than or equal to the admission date.
+   - If the room is already assigned, it validates the discharge date for the current admission. If the new admission date is after the discharge date of the current room assignment, the record can still be added.
+   - Checks that the Appointment ID used for the RoomAssignment does not belong to the same patient who is currently admitted (i.e., a patient cannot be admitted to multiple rooms at the same time).
+   - If all checks pass, the RoomAssignment table is successfully updated or a new record is inserted.
+   - Marks the room as not available in the room assignment table once successfully assigned.
+   - Updates the billing record to maintain data consistency (e.g., if during Appointment ID 1 a doctor decides to admit the patient, $200 is added to the bill generated using Appointment ID 1).
+
+   ![Image 19](path/to/image19.png)
+   ![Image 20](path/to/image20.png)
+   ![Image 21](path/to/image21.png)
+   ![Image 22](path/to/image22.png)
+
+   **Stored Procedure**:
+   A stored procedure has been created to track RoomAssignment by Appointment ID, reducing the need for multiple joins. By entering the Appointment ID, the stored procedure retrieves available room numbers for the department.
+
+   ![Image 23](path/to/image23.png)
+
+   Some stored procedures are also created for Room Assignments.
+   ![Image 24](path/to/image24.png)
+   This stored procedure can be used for room assignments and automatically generates a unique AssignmentID.
+
+9. **Staff Table**: This table contains information about the hospital staff.
+   ![Image 25](path/to/image25.png)
+
+10. **Medical Records Table**: Contains information about medical records for each appointment.
+
+11. **Prescription Table**: Contains information about the prescriptions. It references RecordID from the Medical Records table and MedicineID from the Medicine table.
+    ![Image 27](path/to/image27.png)
+
+    There is a trigger set for appointment completion where once the appointment is marked complete, the billing table gets updated automatically and bills are marked paid to maintain data consistency. As this is synthetic data, triggers put random data. In real-world scenarios, these records need to be updated manually.
+
+    Once the appointment is marked complete, it is assumed that the doctor has already provided the diagnosis, prescription, and treatment. The trigger will fill the Medical Records automatically for the appointment that is marked complete, ensuring data consistency in the database.
+    ![Image 28](path/to/image28.png)
+
+    Furthermore, once the Medical Records table is updated, the Prescription table gets populated as well.
+    ![Image 29](path/to/image29.png)
+
+    If a user wants to extract the information about the medical records for a specific patient, a stored procedure has been created for that.
+    ![Image 30](path/to/image30.png)
+
+    For this table, there are two temporary tables created which are not part of the database. These tables are used to randomly assign the records in the Medical Records table and Prescription table.
+    ![Image 31](path/to/image31.png)
+
+12. **Medicine Table**: This table contains information about the Medicine data, including stock quantity available in the hospital and medicine manufacturer information.
+    ![Image 32](path/to/image32.png)
+
+### Views
+After creating all the tables, it can be challenging to read individual tables and extract meaningful information. To address this, views have been utilized to simplify data retrieval and provide a clearer narrative.
+
+**View for Scheduled Appointments**:
+   ![Image 33](path/to/image33.png)
+   This view gives a detailed description of the scheduled appointments, showing data from multiple tables. It can be used for getting more information about the appointment details.
+
+**View for Medical History**:
+   ![Image 34](path/to/image34.png)
+   This view gives a detailed and meaningful view of any medical record.
+
+**View for Room Availability Dates**:
+   ![Image 35](path/to/image35.png)
+   This view enables the user to see the room availability, including the dates the room will be booked until.
+
+## Conclusion
+In this project, a comprehensive hospital database was designed and implemented to effectively manage real-world healthcare scenarios. The database consists of 12 well-structured tables with constraints to ensure data integrity, consistency, and validation. Triggers have been implemented to automate critical processes and maintain data quality, while stored procedures were developed to simplify frequent tasks, reducing the need for repetitive query writing. Overall, this database provides a robust, efficient, and scalable solution for hospital management, demonstrating the practical application of advanced database concepts to address real-world challenges.
