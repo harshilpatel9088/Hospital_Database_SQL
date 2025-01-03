@@ -137,6 +137,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 26](Image26.png)
    ![Image 27](Image27.png)
    ![Image 28](Image28.png)
+   ![Image 29](Image29.png)
    **Functionalities of the Trigger**:
    - Triggered at the time of insert and/or update.
    - Validates the department ID for the room and the doctor treating the patient (e.g., a doctor in Department 10 can only assign rooms belonging to Department 10).
