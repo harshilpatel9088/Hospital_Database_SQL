@@ -12,6 +12,7 @@ This project aims to design and implement a comprehensive hospital database syst
    - **Constraints**: Enforced primary keys, foreign keys, and unique constraints to maintain data accuracy.
    - **Triggers**: Created triggers for automatic enforcement of business rules and consistency.
    - **Stored Procedures**: Developed procedures for routine operations to streamline tasks and maintain data integrity.
+   - **Views**: Created views to simplify complex queries and provide consistent data representations.
 
 2. **Interconnected Tables**  
    The database includes 12 interconnected tables to manage various aspects of hospital operations:
@@ -30,3 +31,11 @@ This project aims to design and implement a comprehensive hospital database syst
    - **Patient Trends**: Track patient trends over time.
    - **Staff Workload**: Monitor staff workload and efficiency.
    - **Room Occupancy**: Report on hospital room occupancy rates.
+
+4. **PowerBI Dashboard**  
+   An interactive PowerBI dashboard was created to visualize and analyze the hospital data effectively. The dashboard provides insights into key metrics such as:
+   - Revenue and profit trends.
+   - Patient demographics and trends.
+   - Staff workload and performance.
+   - Room occupancy rates.
+   - Medical records and prescription trends.
