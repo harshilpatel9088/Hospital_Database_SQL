@@ -151,7 +151,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 26](Image26.png)
    ![Image 27](Image27.png)
    ![Image 28](Image28.png)
-   ![Image 29](Image29.png)
+   
    **Functionalities of the Trigger**:
    - Triggered at the time of insert and/or update.
    - Validates the department ID for the room and the doctor treating the patient (e.g., a doctor in Department 10 can only assign rooms belonging to Department 10).
@@ -168,50 +168,67 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    **Stored Procedure**:
    A stored procedure has been created to track RoomAssignment by Appointment ID, reducing the need for multiple joins. By entering the Appointment ID, the stored procedure retrieves available room numbers for the department.
 
-   ![Image 23](path/to/image23.png)
+   ![Image 30](Image30.png)
 
+   ![Image 31](Image31.png)
+   
    Some stored procedures are also created for Room Assignments.
-   ![Image 24](path/to/image24.png)
+   
+   ![Image 32](Image32.png)
+   
    This stored procedure can be used for room assignments and automatically generates a unique AssignmentID.
 
-10. **Staff Table**: This table contains information about the hospital staff.
-   ![Image 25](path/to/image25.png)
+09. **Staff Table**: This table contains information about the hospital staff.
+   
+   ![Image 33](Image33.png)
 
-11. **Medical Records Table**: Contains information about medical records for each appointment.
+10. **Medical Records Table**: Contains information about medical records for each appointment.
 
-12. **Prescription Table**: Contains information about the prescriptions. It references RecordID from the Medical Records table and MedicineID from the Medicine table.
-    ![Image 27](path/to/image27.png)
+11. **Prescription Table**: Contains information about the prescriptions. It references RecordID from the Medical Records table and MedicineID from the Medicine table.
+    
+    ![Image 34](Image34.png)
 
     There is a trigger set for appointment completion where once the appointment is marked complete, the billing table gets updated automatically and bills are marked paid to maintain data consistency. As this is synthetic data, triggers put random data. In real-world scenarios, these records need to be updated manually.
 
     Once the appointment is marked complete, it is assumed that the doctor has already provided the diagnosis, prescription, and treatment. The trigger will fill the Medical Records automatically for the appointment that is marked complete, ensuring data consistency in the database.
-    ![Image 28](path/to/image28.png)
+    
+    ![Image 35](Image35.png)
 
     Furthermore, once the Medical Records table is updated, the Prescription table gets populated as well.
-    ![Image 29](path/to/image29.png)
+    
+    ![Image 36](Image36.png)
 
     If a user wants to extract the information about the medical records for a specific patient, a stored procedure has been created for that.
-    ![Image 30](path/to/image30.png)
+    
+    ![Image 37](Image37.png)
 
     For this table, there are two temporary tables created which are not part of the database. These tables are used to randomly assign the records in the Medical Records table and Prescription table.
-    ![Image 31](path/to/image31.png)
+    
+    ![Image 38](Image38.png)
 
-13. **Medicine Table**: This table contains information about the Medicine data, including stock quantity available in the hospital and medicine manufacturer information.
-    ![Image 32](path/to/image32.png)
+12. **Medicine Table**: This table contains information about the Medicine data, including stock quantity available in the hospital and medicine manufacturer information.
+    
+    ![Image 39](Image39.png)
 
 ### Views
 After creating all the tables, it can be challenging to read individual tables and extract meaningful information. To address this, views have been utilized to simplify data retrieval and provide a clearer narrative.
 
 **View for Scheduled Appointments**:
-   ![Image 33](path/to/image33.png)
+
+   ![Image 40](Image40.png)
+   
    This view gives a detailed description of the scheduled appointments, showing data from multiple tables. It can be used for getting more information about the appointment details.
 
 **View for Medical History**:
-   ![Image 34](path/to/image34.png)
+
+   ![Image 41](Image41.png)
+   
    This view gives a detailed and meaningful view of any medical record.
 
 **View for Room Availability Dates**:
-   ![Image 35](path/to/image35.png)
+
+   ![Image 42](Image42.png)
+   
    This view enables the user to see the room availability, including the dates the room will be booked until.
 
 ## Conclusion
