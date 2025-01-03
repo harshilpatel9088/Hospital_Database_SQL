@@ -63,21 +63,21 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 5](image5.png)
 
 4. **Doctor Availability Table**: This table stores information about doctor availability to effectively manage appointment bookings and cancellations. The Availability ID is the primary key, also referred to as the Slot ID, which helps track whether a specific slot for the doctor is available. The Is Available column indicates whether the slot is booked or still available.
-   ![Image 6](path/to/image6.png)
+   ![Image 6](Image6.png)
 
    Example output for the table:
-   ![Image 7](path/to/image7.png)
+   ![Image 7](Image7.png)
 
 5. **Appointment Table**: This table tracks appointments booked for patients and includes the AvailabilityID from the Doctor Availability table. This helps to track appointments for each patient and provides information about the doctor the patient is meeting with. 
    
 
    - **PatientID Foreign Key Constraint**: Ensures that only existing patients can book appointments. Patient ID is not unique, allowing patients to book multiple appointments.
    - **AvailabilityID Constraint**: Not set to unique, allowing flexibility in rebooking canceled appointments. A trigger checks the availability of the slot in the Doctor Availability table before booking an appointment. If the slot is available, it changes the IsAvailable column to "Not Available" upon successful booking. If the appointment is canceled, the trigger updates IsAvailable back to "Available," allowing the slot to be reused.
-   ![Image 8](path/to/image8.png)
+   ![Image 8](Image8.png)
    **Triggers for Appointment Booking**:
-   ![Image 9](path/to/image9.png)
-   ![Image 10](path/to/image10.png)
-   ![Image 11](path/to/image11.png) 
+   ![Image 9](Image9.png)
+   ![Image 10](Image10.png)
+   ![Image 11](Image11.png) 
    Functionalities of the trigger:
    - Check if the slots being booked are available. If not, rollback to the previous state.
    - Ensure the date for the slot is not in the past. If it is, rollback.
