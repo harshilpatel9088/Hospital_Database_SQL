@@ -102,37 +102,41 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 18](Image18.png)
    ![Image 19](Image19.png)
 6. **Billing Table**: This table tracks the billing information for the appointments booked.
+   ![Image 20](Image20.png)
+   
    
    
    The Billing table has BillingID as the primary key. There is no "not null" constraint on the date and payment method because there can be unpaid bills in the database.
    
    Bills are tracked by appointments instead of patient ID to reduce complexity in the database. There can be both paid and unpaid bills for each patient. Since bills are generated with appointments, multiple joins would be needed to find the bills for each patient. To overcome this, a stored procedure has been created that retrieves all the bills for a patient present in the database.
-   
+   ![Image 21](Image21.png)
    
    `EXEC PatientBills` retrieves the bills for the patient.
-   
+   ![Image 22](Image22.png)
    Now, we have the bills for each patient. If the patient decides to pay the bill, a stored procedure can be used as shown below.
    
    
    Example:  
-   
+   ![Image 23](Image23.png)
    
    This approach for the Billing table helps maintain data integrity and reduces data redundancy.
 
 7. **Room Table**: This table contains information about room number, room type (General, ICU, Private), department ID to which the room belongs, and the availability status of the room.
-   
+   ![Image 24](Image24.png)
    
    Room number is used as the primary key for the table, assuming that the room number for each room in the hospital is unique.
 
 8. **RoomAssignment Table**: This table contains information about the room assignments for patients. AssignmentID is the primary key for the table.
-   
+   ![Image 25](Image25.png)
    
    Room number is the foreign key but is not tied with a unique constraint as there can be future room assignment possibilities handled with triggers in the database.
 
    If it is decided during an appointment that the patient needs to be admitted, the RoomAssignment table needs to be used.
 
    Before inserting or updating RoomAssignment, multiple checks are performed using triggers to maintain data integrity and consistency across related tables.
-
+   ![Image 26](Image26.png)
+   ![Image 27](Image27.png)
+   ![Image 28](Image28.png)
    **Functionalities of the Trigger**:
    - Triggered at the time of insert and/or update.
    - Validates the department ID for the room and the doctor treating the patient (e.g., a doctor in Department 10 can only assign rooms belonging to Department 10).
@@ -144,9 +148,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    - Marks the room as not available in the room assignment table once successfully assigned.
    - Updates the billing record to maintain data consistency (e.g., if during Appointment ID 1 a doctor decides to admit the patient, $200 is added to the bill generated using Appointment ID 1).
 
-   ![Image 20](path/to/image20.png)
-   ![Image 21](path/to/image21.png)
-   ![Image 22](path/to/image22.png)
+
 
    **Stored Procedure**:
    A stored procedure has been created to track RoomAssignment by Appointment ID, reducing the need for multiple joins. By entering the Appointment ID, the stored procedure retrieves available room numbers for the department.
@@ -157,12 +159,12 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 24](path/to/image24.png)
    This stored procedure can be used for room assignments and automatically generates a unique AssignmentID.
 
-9. **Staff Table**: This table contains information about the hospital staff.
+10. **Staff Table**: This table contains information about the hospital staff.
    ![Image 25](path/to/image25.png)
 
-10. **Medical Records Table**: Contains information about medical records for each appointment.
+11. **Medical Records Table**: Contains information about medical records for each appointment.
 
-11. **Prescription Table**: Contains information about the prescriptions. It references RecordID from the Medical Records table and MedicineID from the Medicine table.
+12. **Prescription Table**: Contains information about the prescriptions. It references RecordID from the Medical Records table and MedicineID from the Medicine table.
     ![Image 27](path/to/image27.png)
 
     There is a trigger set for appointment completion where once the appointment is marked complete, the billing table gets updated automatically and bills are marked paid to maintain data consistency. As this is synthetic data, triggers put random data. In real-world scenarios, these records need to be updated manually.
@@ -179,7 +181,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
     For this table, there are two temporary tables created which are not part of the database. These tables are used to randomly assign the records in the Medical Records table and Prescription table.
     ![Image 31](path/to/image31.png)
 
-12. **Medicine Table**: This table contains information about the Medicine data, including stock quantity available in the hospital and medicine manufacturer information.
+13. **Medicine Table**: This table contains information about the Medicine data, including stock quantity available in the hospital and medicine manufacturer information.
     ![Image 32](path/to/image32.png)
 
 ### Views
