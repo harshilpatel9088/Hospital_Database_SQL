@@ -60,7 +60,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 4](image4.png)
 
 3. **Doctor Table**: Contains information about doctors with DoctorID as the primary key and DepartmentID as the foreign key referencing the department table. This setup ensures that each doctor is associated with a specific department. For example, a doctor belonging to the radiology department will be considered a radiology specialist. This approach reduces data redundancy by maintaining department names in a single table.
-   ![Image 5](image5.png)
+   ![Image 5](Image5.png)
 
 4. **Doctor Availability Table**: This table stores information about doctor availability to effectively manage appointment bookings and cancellations. The Availability ID is the primary key, also referred to as the Slot ID, which helps track whether a specific slot for the doctor is available. The Is Available column indicates whether the slot is booked or still available.
    ![Image 6](Image6.png)
@@ -97,9 +97,10 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    Availability ID 6325 is available. Booking this slot for Patient ID P5 is successful, and the IsAvailable column is updated to "Not Available." The stored procedure generates a unique Appointment ID APNT4727, and a billing record is added.
 ![Image 16](path/to/image16.png)
    **Appointment Cancellation**:
-    
+  ![Image 17](path/to/image17.png)  
    If the appointment is canceled, AvailabilityID 6325 is updated back to "Available," allowing future bookings. The billing record is deleted, ensuring data consistency and no redundant data.
-
+   ![Image 18](path/to/image18.png)
+   ![Image 19](path/to/image19.png)
 6. **Billing Table**: This table tracks the billing information for the appointments booked.
    
    
@@ -114,17 +115,17 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    
    
    Example:  
-   ![Image 17](path/to/image17.png)
+   
    
    This approach for the Billing table helps maintain data integrity and reduces data redundancy.
 
 7. **Room Table**: This table contains information about room number, room type (General, ICU, Private), department ID to which the room belongs, and the availability status of the room.
-   ![Image 18](path/to/image18.png)
+   
    
    Room number is used as the primary key for the table, assuming that the room number for each room in the hospital is unique.
 
 8. **RoomAssignment Table**: This table contains information about the room assignments for patients. AssignmentID is the primary key for the table.
-   ![Image 18](path/to/image18.png)
+   
    
    Room number is the foreign key but is not tied with a unique constraint as there can be future room assignment possibilities handled with triggers in the database.
 
@@ -143,7 +144,6 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    - Marks the room as not available in the room assignment table once successfully assigned.
    - Updates the billing record to maintain data consistency (e.g., if during Appointment ID 1 a doctor decides to admit the patient, $200 is added to the bill generated using Appointment ID 1).
 
-   ![Image 19](path/to/image19.png)
    ![Image 20](path/to/image20.png)
    ![Image 21](path/to/image21.png)
    ![Image 22](path/to/image22.png)
