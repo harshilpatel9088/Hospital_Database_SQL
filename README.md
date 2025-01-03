@@ -60,7 +60,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 4](image4.png)
 
 3. **Doctor Table**: Contains information about doctors with DoctorID as the primary key and DepartmentID as the foreign key referencing the department table. This setup ensures that each doctor is associated with a specific department. For example, a doctor belonging to the radiology department will be considered a radiology specialist. This approach reduces data redundancy by maintaining department names in a single table.
-   ![Image 5](Image5.png)
+   ![Image 5](image5.png)
 
 4. **Doctor Availability Table**: This table stores information about doctor availability to effectively manage appointment bookings and cancellations. The Availability ID is the primary key, also referred to as the Slot ID, which helps track whether a specific slot for the doctor is available. The Is Available column indicates whether the slot is booked or still available.
    ![Image 6](Image6.png)
