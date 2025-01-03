@@ -74,10 +74,15 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    - **PatientID Foreign Key Constraint**: Ensures that only existing patients can book appointments. Patient ID is not unique, allowing patients to book multiple appointments.
    - **AvailabilityID Constraint**: Not set to unique, allowing flexibility in rebooking canceled appointments. A trigger checks the availability of the slot in the Doctor Availability table before booking an appointment. If the slot is available, it changes the IsAvailable column to "Not Available" upon successful booking. If the appointment is canceled, the trigger updates IsAvailable back to "Available," allowing the slot to be reused.
    ![Image 8](Image8.png)
+
    **Triggers for Appointment Booking**:
+   
    ![Image 9](Image9.png)
+   
    ![Image 10](Image10.png)
-   ![Image 11](Image11.png) 
+
+   ![Image 11](Image11.png)
+   
    Functionalities of the trigger:
    - Check if the slots being booked are available. If not, rollback to the previous state.
    - Ensure the date for the slot is not in the past. If it is, rollback.
@@ -87,23 +92,32 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
 
    **Stored Procedure**:
    A stored procedure has been created for booking appointments, which generates an AppointmentID automatically.
-![Image 12](Image12.png) 
+![Image 12](Image12.png)
+
    **Test Case**:
-![Image 13](Image13.png) 
+   
+![Image 13](Image13.png)
+
    Availability ID 6324 is not available. Attempting to book an appointment for this ID throws an error.
 
 ![Image 14](Image14.png)
+
 ![Image 15](Image15.png)
+
    Availability ID 6325 is available. Booking this slot for Patient ID P5 is successful, and the IsAvailable column is updated to "Not Available." The stored procedure generates a unique Appointment ID APNT4727, and a billing record is added.
+   
 ![Image 16](Image16.png)
+
    **Appointment Cancellation**:
+   
   ![Image 17](Image17.png)  
    If the appointment is canceled, AvailabilityID 6325 is updated back to "Available," allowing future bookings. The billing record is deleted, ensuring data consistency and no redundant data.
    ![Image 18](Image18.png)
+   
    ![Image 19](Image19.png)
+   
 6. **Billing Table**: This table tracks the billing information for the appointments booked.
    ![Image 20](Image20.png)
-   
    
    
    The Billing table has BillingID as the primary key. There is no "not null" constraint on the date and payment method because there can be unpaid bills in the database.
