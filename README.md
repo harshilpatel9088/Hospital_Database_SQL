@@ -47,20 +47,20 @@ This project aims to design and implement a comprehensive hospital database syst
 The database consists of 12 tables, designed to reduce data redundancy and increase data integrity. Most of the tables have been normalized to Third Normal Form (3NF), ensuring there are no partial or transitive dependencies. Each table has a well-defined primary key to maintain uniqueness and support efficient data management. Additionally, several constraints, such as foreign keys, unique constraints, and check constraints, have been applied to enforce data integrity and ensure consistent relationships between tables.
 
 1. **Patient Table**: This table contains information about patient data.
-   ![Image 1](path/to/image1.png)  
+   ![Image 1](image1.png)  
    Here is a DDL (Data Definition Language) for the patient table showcasing the constraints for the other required columns.
 
    There has been a stored procedure created to simplify adding patients to the table.
-   ![Image 2](path/to/image2.png)
+   ![Image 2](image2.png)
    Example:  
-   ![Image 3](path/to/image3.png) 
+   ![Image 3](image3.png) 
    The stored procedure generates a unique patient ID every time a patient record is added using the stored procedure.
 
 2. **Department Table**: This table contains information about different departments in the hospital with DepartmentID as the primary key.
-   ![Image 4](path/to/image4.png)
+   ![Image 4](image4.png)
 
 3. **Doctor Table**: Contains information about doctors with DoctorID as the primary key and DepartmentID as the foreign key referencing the department table. This setup ensures that each doctor is associated with a specific department. For example, a doctor belonging to the radiology department will be considered a radiology specialist. This approach reduces data redundancy by maintaining department names in a single table.
-   ![Image 5](path/to/image5.png)
+   ![Image 5](image5.png)
 
 4. **Doctor Availability Table**: This table stores information about doctor availability to effectively manage appointment bookings and cancellations. The Availability ID is the primary key, also referred to as the Slot ID, which helps track whether a specific slot for the doctor is available. The Is Available column indicates whether the slot is booked or still available.
    ![Image 6](path/to/image6.png)
