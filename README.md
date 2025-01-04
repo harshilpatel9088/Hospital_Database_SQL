@@ -261,6 +261,22 @@ After creating all the tables, it can be challenging to read individual tables a
    ![Image 42](Image42.png)
    
    This view enables the user to see the room availability, including the dates the room will be booked until.
+   
+## Dashboard
+
+   ![Dashboard1](Dashboard1.png)
+   
+   ![Dashboard2](Dashboard2.png)
+   
+   ![Dashboard3](Dashboard3.png)
+   
+   ![Dashboard4](Dashboard4.png)
+   
+   ![Dashboard5](Dashboard5.png)
+   
+   ![Dashboard6](Dashboard6.png)
+   
+   ![Dashboard7](Dashboard7.png)
 
 ## Conclusion
 In this project, a comprehensive hospital database was designed and implemented to effectively manage real-world healthcare scenarios. The database consists of 12 well-structured tables with constraints to ensure data integrity, consistency, and validation. Triggers have been implemented to automate critical processes and maintain data quality, while stored procedures were developed to simplify frequent tasks, reducing the need for repetitive query writing. Overall, this database provides a robust, efficient, and scalable solution for hospital management, demonstrating the practical application of advanced database concepts to address real-world challenges.
