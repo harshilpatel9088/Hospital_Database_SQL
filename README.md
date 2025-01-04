@@ -45,7 +45,7 @@ This project aims to design and implement a comprehensive hospital database syst
 
 ### Conceptual Diagram
 
-![Diagram1](conceptual_diagram.png)
+![Diagram1](conceptual_diagram.jpeg)
 
 ### Physical Diagram
 
