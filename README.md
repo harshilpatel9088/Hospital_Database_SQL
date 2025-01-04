@@ -55,7 +55,9 @@ This project aims to design and implement a comprehensive hospital database syst
 The database consists of 12 tables, designed to reduce data redundancy and increase data integrity. Most of the tables have been normalized to Third Normal Form (3NF), ensuring there are no partial or transitive dependencies. Each table has a well-defined primary key to maintain uniqueness and support efficient data management. Additionally, several constraints, such as foreign keys, unique constraints, and check constraints, have been applied to enforce data integrity and ensure consistent relationships between tables.
 
 1. **Patient Table**: This table contains information about patient data.
+
    ![Image 1](image1.png)  
+
    Here is a DDL (Data Definition Language) for the patient table showcasing the constraints for the other required columns.
 
    There has been a stored procedure created to simplify adding patients to the table.
@@ -68,15 +70,15 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    
    The stored procedure generates a unique patient ID every time a patient record is added using the stored procedure.
 
-2. **Department Table**: This table contains information about different departments in the hospital with DepartmentID as the primary key.
+3. **Department Table**: This table contains information about different departments in the hospital with DepartmentID as the primary key.
    
    ![Image 4](image4.png)
 
-3. **Doctor Table**: Contains information about doctors with DoctorID as the primary key and DepartmentID as the foreign key referencing the department table. This setup ensures that each doctor is associated with a specific department. For example, a doctor belonging to the radiology department will be considered a radiology specialist. This approach reduces data redundancy by maintaining department names in a single table.
+4. **Doctor Table**: Contains information about doctors with DoctorID as the primary key and DepartmentID as the foreign key referencing the department table. This setup ensures that each doctor is associated with a specific department. For example, a doctor belonging to the radiology department will be considered a radiology specialist. This approach reduces data redundancy by maintaining department names in a single table.
    
    ![Image 5](image5.png)
 
-4. **Doctor Availability Table**: This table stores information about doctor availability to effectively manage appointment bookings and cancellations. The Availability ID is the primary key, also referred to as the Slot ID, which helps track whether a specific slot for the doctor is available. The Is Available column indicates whether the slot is booked or still available.
+5. **Doctor Availability Table**: This table stores information about doctor availability to effectively manage appointment bookings and cancellations. The Availability ID is the primary key, also referred to as the Slot ID, which helps track whether a specific slot for the doctor is available. The Is Available column indicates whether the slot is booked or still available.
 
    ![Image 6](Image6.png)
 
@@ -84,7 +86,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
 
    ![Image 7](Image7.png)
 
-5. **Appointment Table**: This table tracks appointments booked for patients and includes the AvailabilityID from the Doctor Availability table. This helps to track appointments for each patient and provides information about the doctor the patient is meeting with. 
+6. **Appointment Table**: This table tracks appointments booked for patients and includes the AvailabilityID from the Doctor Availability table. This helps to track appointments for each patient and provides information about the doctor the patient is meeting with. 
    
 
    - **PatientID Foreign Key Constraint**: Ensures that only existing patients can book appointments. Patient ID is not unique, allowing patients to book multiple appointments.
@@ -128,7 +130,9 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    **Appointment Cancellation**:
    
   ![Image 17](Image17.png)  
-   If the appointment is canceled, AvailabilityID 6325 is updated back to "Available," allowing future bookings. The billing record is deleted, ensuring data consistency and no redundant data.
+   
+   If the appointment is canceled, AvailabilityID 6325 is updated back to "Available," allowing future bookings. The billing record is deleted, ensuring data          consistency and no redundant data.
+   
    ![Image 18](Image18.png)
    
    ![Image 19](Image19.png)
@@ -141,25 +145,29 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    The Billing table has BillingID as the primary key. There is no "not null" constraint on the date and payment method because there can be unpaid bills in the database.
    
    Bills are tracked by appointments instead of patient ID to reduce complexity in the database. There can be both paid and unpaid bills for each patient. Since bills are generated with appointments, multiple       joins would be needed to find the bills for each patient. To overcome this, a stored procedure has been created that retrieves all the bills for a patient present in the database.
+
    ![Image 21](Image21.png)
    
    `EXEC PatientBills` retrieves the bills for the patient.
+
    ![Image 22](Image22.png)
+
    Now, we have the bills for each patient. If the patient decides to pay the bill, a stored procedure can be used as shown below.
    
    
    Example:  
+
    ![Image 23](Image23.png)
    
    This approach for the Billing table helps maintain data integrity and reduces data redundancy.
 
-7. **Room Table**: This table contains information about room number, room type (General, ICU, Private), department ID to which the room belongs, and the availability status of the room.
+8. **Room Table**: This table contains information about room number, room type (General, ICU, Private), department ID to which the room belongs, and the availability status of the room.
 
    ![Image 24](Image24.png)
    
    Room number is used as the primary key for the table, assuming that the room number for each room in the hospital is unique.
 
-8. **RoomAssignment Table**: This table contains information about the room assignments for patients. AssignmentID is the primary key for the table.
+9. **RoomAssignment Table**: This table contains information about the room assignments for patients. AssignmentID is the primary key for the table.
 
    ![Image 25](Image25.png)
    
@@ -201,13 +209,13 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    
    This stored procedure can be used for room assignments and automatically generates a unique AssignmentID.
 
-9. **Staff Table**: This table contains information about the hospital staff.
+10. **Staff Table**: This table contains information about the hospital staff.
    
    ![Image 33](Image33.png)
 
-10. **Medical Records Table**: Contains information about medical records for each appointment.
+11. **Medical Records Table**: Contains information about medical records for each appointment.
 
-11. **Prescription Table**: Contains information about the prescriptions. It references RecordID from the Medical Records table and MedicineID from the Medicine table.
+12. **Prescription Table**: Contains information about the prescriptions. It references RecordID from the Medical Records table and MedicineID from the Medicine table.
     
     ![Image 34](Image34.png)
 
@@ -229,7 +237,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
     
     ![Image 38](Image38.png)
 
-12. **Medicine Table**: This table contains information about the Medicine data, including stock quantity available in the hospital and medicine manufacturer information.
+13. **Medicine Table**: This table contains information about the Medicine data, including stock quantity available in the hospital and medicine manufacturer information.
     
     ![Image 39](Image39.png)
 
