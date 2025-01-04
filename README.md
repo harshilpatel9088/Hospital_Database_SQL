@@ -43,6 +43,14 @@ This project aims to design and implement a comprehensive hospital database syst
   
 ## Methodology
 
+### Conceptual Diagram
+
+![Diagram1](conceptual.png)
+
+### Logical Diagram
+
+![Diagram1](logical.png)
+
 ### Tables
 The database consists of 12 tables, designed to reduce data redundancy and increase data integrity. Most of the tables have been normalized to Third Normal Form (3NF), ensuring there are no partial or transitive dependencies. Each table has a well-defined primary key to maintain uniqueness and support efficient data management. Additionally, several constraints, such as foreign keys, unique constraints, and check constraints, have been applied to enforce data integrity and ensure consistent relationships between tables.
 
