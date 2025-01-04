@@ -59,21 +59,29 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    Here is a DDL (Data Definition Language) for the patient table showcasing the constraints for the other required columns.
 
    There has been a stored procedure created to simplify adding patients to the table.
+   
    ![Image 2](image2.png)
-   Example:  
-   ![Image 3](image3.png) 
+   
+   Example:
+   
+   ![Image 3](image3.png)
+   
    The stored procedure generates a unique patient ID every time a patient record is added using the stored procedure.
 
 2. **Department Table**: This table contains information about different departments in the hospital with DepartmentID as the primary key.
+   
    ![Image 4](image4.png)
 
 3. **Doctor Table**: Contains information about doctors with DoctorID as the primary key and DepartmentID as the foreign key referencing the department table. This setup ensures that each doctor is associated with a specific department. For example, a doctor belonging to the radiology department will be considered a radiology specialist. This approach reduces data redundancy by maintaining department names in a single table.
+   
    ![Image 5](image5.png)
 
 4. **Doctor Availability Table**: This table stores information about doctor availability to effectively manage appointment bookings and cancellations. The Availability ID is the primary key, also referred to as the Slot ID, which helps track whether a specific slot for the doctor is available. The Is Available column indicates whether the slot is booked or still available.
+
    ![Image 6](Image6.png)
 
    Example output for the table:
+
    ![Image 7](Image7.png)
 
 5. **Appointment Table**: This table tracks appointments booked for patients and includes the AvailabilityID from the Doctor Availability table. This helps to track appointments for each patient and provides information about the doctor the patient is meeting with. 
@@ -81,6 +89,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
 
    - **PatientID Foreign Key Constraint**: Ensures that only existing patients can book appointments. Patient ID is not unique, allowing patients to book multiple appointments.
    - **AvailabilityID Constraint**: Not set to unique, allowing flexibility in rebooking canceled appointments. A trigger checks the availability of the slot in the Doctor Availability table before booking an appointment. If the slot is available, it changes the IsAvailable column to "Not Available" upon successful booking. If the appointment is canceled, the trigger updates IsAvailable back to "Available," allowing the slot to be reused.
+   
    ![Image 8](Image8.png)
 
    **Triggers for Appointment Booking**:
@@ -100,21 +109,21 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
 
    **Stored Procedure**:
    A stored procedure has been created for booking appointments, which generates an AppointmentID automatically.
-![Image 12](Image12.png)
+   ![Image 12](Image12.png)
 
    **Test Case**:
    
-![Image 13](Image13.png)
+   ![Image 13](Image13.png)
 
    Availability ID 6324 is not available. Attempting to book an appointment for this ID throws an error.
 
-![Image 14](Image14.png)
+   ![Image 14](Image14.png)
 
-![Image 15](Image15.png)
+   ![Image 15](Image15.png)
 
-   Availability ID 6325 is available. Booking this slot for Patient ID P5 is successful, and the IsAvailable column is updated to "Not Available." The stored procedure generates a unique Appointment ID APNT4727, and a billing record is added.
+   Availability ID 6325 is available. Booking this slot for Patient ID P5 is successful, and the IsAvailable column is updated to "Not Available." The stored procedure generates a unique Appointment ID APNT4727,    and a billing record is added.
    
-![Image 16](Image16.png)
+   ![Image 16](Image16.png)
 
    **Appointment Cancellation**:
    
@@ -125,12 +134,13 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    ![Image 19](Image19.png)
    
 6. **Billing Table**: This table tracks the billing information for the appointments booked.
+   
    ![Image 20](Image20.png)
    
    
    The Billing table has BillingID as the primary key. There is no "not null" constraint on the date and payment method because there can be unpaid bills in the database.
    
-   Bills are tracked by appointments instead of patient ID to reduce complexity in the database. There can be both paid and unpaid bills for each patient. Since bills are generated with appointments, multiple joins would be needed to find the bills for each patient. To overcome this, a stored procedure has been created that retrieves all the bills for a patient present in the database.
+   Bills are tracked by appointments instead of patient ID to reduce complexity in the database. There can be both paid and unpaid bills for each patient. Since bills are generated with appointments, multiple       joins would be needed to find the bills for each patient. To overcome this, a stored procedure has been created that retrieves all the bills for a patient present in the database.
    ![Image 21](Image21.png)
    
    `EXEC PatientBills` retrieves the bills for the patient.
@@ -144,11 +154,13 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    This approach for the Billing table helps maintain data integrity and reduces data redundancy.
 
 7. **Room Table**: This table contains information about room number, room type (General, ICU, Private), department ID to which the room belongs, and the availability status of the room.
+
    ![Image 24](Image24.png)
    
    Room number is used as the primary key for the table, assuming that the room number for each room in the hospital is unique.
 
 8. **RoomAssignment Table**: This table contains information about the room assignments for patients. AssignmentID is the primary key for the table.
+
    ![Image 25](Image25.png)
    
    Room number is the foreign key but is not tied with a unique constraint as there can be future room assignment possibilities handled with triggers in the database.
@@ -156,8 +168,11 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    If it is decided during an appointment that the patient needs to be admitted, the RoomAssignment table needs to be used.
 
    Before inserting or updating RoomAssignment, multiple checks are performed using triggers to maintain data integrity and consistency across related tables.
+
    ![Image 26](Image26.png)
+
    ![Image 27](Image27.png)
+
    ![Image 28](Image28.png)
    
    **Functionalities of the Trigger**:
@@ -165,7 +180,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    - Validates the department ID for the room and the doctor treating the patient (e.g., a doctor in Department 10 can only assign rooms belonging to Department 10).
    - Validates if the selected room number is available to be assigned.
    - Ensures the discharge date for the admission is greater than or equal to the admission date.
-   - If the room is already assigned, it validates the discharge date for the current admission. If the new admission date is after the discharge date of the current room assignment, the record can still be added.
+   - If the room is already assigned, it validates the discharge date for the current admission. If the new admission date is after the discharge date of the current room assignment, the record can still be          added.
    - Checks that the Appointment ID used for the RoomAssignment does not belong to the same patient who is currently admitted (i.e., a patient cannot be admitted to multiple rooms at the same time).
    - If all checks pass, the RoomAssignment table is successfully updated or a new record is inserted.
    - Marks the room as not available in the room assignment table once successfully assigned.
@@ -174,7 +189,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
 
 
    **Stored Procedure**:
-   A stored procedure has been created to track RoomAssignment by Appointment ID, reducing the need for multiple joins. By entering the Appointment ID, the stored procedure retrieves available room numbers for the department.
+   A stored procedure has been created to track RoomAssignment by Appointment ID, reducing the need for multiple joins. By entering the Appointment ID, the stored procedure retrieves available room numbers for       the department.
 
    ![Image 30](Image30.png)
 
@@ -186,7 +201,7 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
    
    This stored procedure can be used for room assignments and automatically generates a unique AssignmentID.
 
-09. **Staff Table**: This table contains information about the hospital staff.
+9. **Staff Table**: This table contains information about the hospital staff.
    
    ![Image 33](Image33.png)
 
@@ -196,9 +211,9 @@ The database consists of 12 tables, designed to reduce data redundancy and incre
     
     ![Image 34](Image34.png)
 
-    There is a trigger set for appointment completion where once the appointment is marked complete, the billing table gets updated automatically and bills are marked paid to maintain data consistency. As this is synthetic data, triggers put random data. In real-world scenarios, these records need to be updated manually.
+    There is a trigger set for appointment completion where once the appointment is marked complete, the billing table gets updated automatically and bills are marked paid to maintain data consistency. As this       is synthetic data, triggers put random data. In real-world scenarios, these records need to be updated manually.
 
-    Once the appointment is marked complete, it is assumed that the doctor has already provided the diagnosis, prescription, and treatment. The trigger will fill the Medical Records automatically for the appointment that is marked complete, ensuring data consistency in the database.
+    Once the appointment is marked complete, it is assumed that the doctor has already provided the diagnosis, prescription, and treatment. The trigger will fill the Medical Records automatically for the             appointment that is marked complete, ensuring data consistency in the database.
     
     ![Image 35](Image35.png)
 
